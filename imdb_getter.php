@@ -4,7 +4,7 @@
  * Writen by Minh Nhut
  * Ngay 29/4/2013
  * Website: http://minhnhut.info
- * Version: 1.0
+ * Version: 1.2
  */
 
 class imdb_getter {
@@ -23,16 +23,20 @@ class imdb_getter {
 		curl_close($this->ch);
 		
 		$regex = '/<span class="itemprop" itemprop="name">(.*)<\/span>/';
-		preg_match($regex, $this->page, $match);
+		preg_match($regex, $this->page, $match);		
 		$data['title'] = $match[1];
 	
 		$regex = '/<a href="\/year\/(.*)\/\?ref_=tt_ov_inf" >(.*)<\/a>/';
 		preg_match($regex, $this->page, $match);
-		$data['year'] = $match[1];
+		if (isset($match[1])) {
+			$data['year'] = $match[1];
+		}
 
 		$regex = '/<meta itemprop="contentRating" content="(.*)" \/>/';
 		preg_match($regex, $this->page, $match);
-		$data['grene'] = $match[1];
+		if (isset($match[1])) {
+			$data['grene'] = $match[1];
+		}
 
 		$regex = '/<a href="\/genre\/(.*)\?ref_=tt_ov_inf" >/';
 		preg_match_all($regex, $this->page, $match);
@@ -44,7 +48,9 @@ class imdb_getter {
 
 		$regex = '/\/\?ref_=tt_ov_dr" itemprop=\'url\'><span class="itemprop" itemprop="name">(.*)<\/span><\/a>/';
 		preg_match($regex, $this->page, $match);
-		$data['director'] = $match[1];
+		if (isset($match[1])) {
+			$data['director'] = $match[1];
+		}
 
 		$regex = '/\/\?ref_=tt_ov_st" itemprop=\'url\'><span class="itemprop" itemprop="name">(.*)<\/span><\/a>/';
 		preg_match_all($regex, $this->page, $match);
